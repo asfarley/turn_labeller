@@ -59,11 +59,19 @@
   
   <script type="text/javascript">
         document.getElementById('urlbutton').onclick = function() {
-            var val = document.getElementById('urlinput').value,
-                src = val + 'RegionsLegend.png',
-                img = document.getElementById('background');
-				img.src = src;
-				//document.body.appendChild(img);
+            var val = document.getElementById('urlinput').value;
+            src = val + 'RegionsLegend.png';
+            img = document.getElementById('background');
+				
+			img.src = src;
+			
+			var movements_json_url = val + 'Movements.json'
+				
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+			xmlHttp.send( null );
+			return xmlHttp.responseText;
+			//document.body.appendChild(img);
         }
     </script>
   
