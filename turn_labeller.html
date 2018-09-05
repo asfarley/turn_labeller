@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Roadometry Turn Labeller</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kosugi+Maru" type="text/css">
+  <link rel="stylesheet" href="./style.css" type="text/css">
+  </head>
+  <body>
+  
+  <!--
+  Expected workflow:
+  1. User pastes in URL of VTC output folder.
+  2. User clicks "Load URL".
+  3. Page presents each movement to the user for classification.
+  4. Classified movements are outputted as a text file once all movements have been classified.
+  -->
+  
+  <div id="container">
+  
+  <div id="image">
+  <img id="background">
+  </div>
+  
+  <div id="progressindicator">
+  0% done.
+  </div>
+  
+  <div class="button">
+  Left
+  </div>
+  
+  <div class="button">
+  Right
+  </div>
+  
+  <div class="button">
+  Straight
+  </div>
+  
+  <div class="button">
+  U-Turn
+  </div>
+  
+  <div class="button">
+  Other/Garbage
+  </div>
+  
+  <div id="urlbox">
+  <input type="text" name="movementsurl" id="urlinput"></input>
+  </div>
+  
+  <div class="urlbutton" id="urlbutton">
+  Load URL
+  </div>
+  
+  </div>
+  
+  <script type="text/javascript">
+        document.getElementById('urlbutton').onclick = function() {
+            var val = document.getElementById('urlinput').value,
+                src = val + 'RegionsLegend.png',
+                img = document.getElementById('background');
+				img.src = src;
+				//document.body.appendChild(img);
+        }
+    </script>
+  
+  </body>
+</html>

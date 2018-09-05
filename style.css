@@ -1,0 +1,56 @@
+body {
+	font-family: 'Kosugi Maru', sans-serif;
+}
+
+#container {
+	margin: 0 auto;
+	max-width: 320px;
+}
+
+.button {
+	text-align:center;
+	width:100%;
+	background-color:grey;
+	padding:1em;
+	border-style:solid;
+	border-width:1px;
+}
+
+.button:hover {
+	background-color:#DDDDDD;
+}
+
+.urlbutton {
+	text-align:center;
+	width:100%;
+	background-color:#4444FF;
+	padding:1em;
+	border-style:solid;
+	border-width:1px;
+}
+
+.urlbutton:hover {
+	background-color:#9999FF;
+}
+
+#urlbox{
+	width:100%;
+	height:2em;
+	padding:1em;
+}
+
+#urlinput{
+	width:100%;
+	height:2em;
+}
+
+#background{
+	width:100%;
+	margin: 0 auto;
+}
+
+#image {
+	margin: 0 auto;
+	padding:1em;
+	width:100%;
+}
