@@ -4,6 +4,18 @@ var movements_list = [];
 
 //Wrap code in this so that document is available
 window.onload = function(){ 
+
+	function DownloadFile()
+	{
+		console.log("Downloading...");
+		var text = movement_classifications.toString();
+		var hiddenElement = document.createElement('a');
+		hiddenElement.href = 'data:attachment/text,' + encodeURI(text);
+		hiddenElement.target = '_blank';
+		hiddenElement.download = 'movement_classifications.txt';
+		hiddenElement.click();
+	}
+	
 	function DrawMovement()
 	{
 		var c=document.getElementById('scenecanvas');
@@ -53,6 +65,10 @@ window.onload = function(){
 		{
 			movement_index++;
 		}
+		else
+		{
+			DownloadFile();
+		}
 		DrawMovement();
 		return;
 	}
@@ -62,6 +78,10 @@ window.onload = function(){
 		if(movement_index < (movements_list.length - 1))
 		{
 			movement_index++;
+		}
+		else
+		{
+			DownloadFile();
 		}
 		DrawMovement();
 		return;
@@ -73,6 +93,10 @@ window.onload = function(){
 		{
 			movement_index++;
 		}
+		else
+		{
+			DownloadFile();
+		}
 		DrawMovement();
 		return;
 	}
@@ -82,6 +106,10 @@ window.onload = function(){
 		if(movement_index < (movements_list.length - 1))
 		{
 			movement_index++;
+		}
+		else
+		{
+			DownloadFile();
 		}
 		DrawMovement();
 		return;
@@ -93,11 +121,11 @@ window.onload = function(){
 		{
 			movement_index++;
 		}
+		else
+		{
+			DownloadFile();
+		}
 		DrawMovement();
 		return;
 	}
-	
-	
-	
-	
 };
