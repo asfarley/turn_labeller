@@ -22,6 +22,7 @@ body {
 
 .urlbutton {
 	text-align:center;
+	color:white;
 	width:100%;
 	background-color:#4444FF;
 	padding:1em;
@@ -45,8 +46,9 @@ body {
 }
 
 #background{
-	width:100%;
-	margin: 0 auto;
+	visibility:hidden;
+	width:0px;
+	height:0px;
 }
 
 #image {

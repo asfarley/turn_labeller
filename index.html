@@ -6,6 +6,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kosugi+Maru" type="text/css">
   <link rel="stylesheet" href="./style.css" type="text/css">
+  <script type="text/javascript" src="tl.js"></script>
   </head>
   <body>
   
@@ -21,29 +22,30 @@
   
   <div id="image">
   <img id="background">
+  <canvas id="scenecanvas" width="320" height="240"></canvas>
   </div>
   
   <div id="progressindicator">
   0% done.
   </div>
   
-  <div class="button">
+  <div class="button" id="leftbutton">
   Left
   </div>
   
-  <div class="button">
+  <div class="button" id="rightbutton">
   Right
   </div>
   
-  <div class="button">
+  <div class="button" id="straightbutton">
   Straight
   </div>
   
-  <div class="button">
+  <div class="button" id="uturnbutton">
   U-Turn
   </div>
   
-  <div class="button">
+  <div class="button" id="otherbutton">
   Other/Garbage
   </div>
   
@@ -58,21 +60,6 @@
   </div>
   
   <script type="text/javascript">
-        document.getElementById('urlbutton').onclick = function() {
-            var val = document.getElementById('urlinput').value;
-            src = val + 'RegionsLegend.png';
-            img = document.getElementById('background');
-				
-			img.src = src;
-			
-			var movements_json_url = val + 'Movements.json'
-				
-			var xmlHttp = new XMLHttpRequest();
-			xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-			xmlHttp.send( null );
-			return xmlHttp.responseText;
-			//document.body.appendChild(img);
-        }
     </script>
   
   </body>
