@@ -5,6 +5,13 @@ var movements_list = [];
 //Wrap code in this so that document is available
 window.onload = function(){ 
 
+	function UpdatePercentage()
+	{
+		var c=document.getElementById('progressindicator');	
+		var progress_percent = 100.0 * movement_index / movements_list.length;
+		c.innerHTML = progress_percent.toString() + "% complete.";
+	}
+
 	function DownloadFile()
 	{
 		console.log("Downloading...");
@@ -64,6 +71,7 @@ window.onload = function(){
 		if(movement_index < (movements_list.length - 1))
 		{
 			movement_index++;
+			UpdatePercentage();
 		}
 		else
 		{
@@ -78,6 +86,7 @@ window.onload = function(){
 		if(movement_index < (movements_list.length - 1))
 		{
 			movement_index++;
+			UpdatePercentage();
 		}
 		else
 		{
@@ -92,6 +101,7 @@ window.onload = function(){
 		if(movement_index < (movements_list.length - 1))
 		{
 			movement_index++;
+			UpdatePercentage();
 		}
 		else
 		{
@@ -106,6 +116,7 @@ window.onload = function(){
 		if(movement_index < (movements_list.length - 1))
 		{
 			movement_index++;
+			UpdatePercentage();
 		}
 		else
 		{
@@ -120,6 +131,7 @@ window.onload = function(){
 		if(movement_index < (movements_list.length - 1))
 		{
 			movement_index++;
+			UpdatePercentage();
 		}
 		else
 		{
