@@ -5,17 +5,29 @@ var movements_list = [];
 //Wrap code in this so that document is available
 window.onload = function(){ 
 
+	function LabelMovementAs(label)
+	{
+		this_movement = JSON.parse(movements_list[movement_index]);
+		this_movement.TurnType = label;
+		console.log("Labelled movement:");
+		console.log(this_movement);
+		movement_classifications.push(this_movement);
+	}
+
 	function UpdatePercentage()
 	{
 		var c=document.getElementById('progressindicator');	
 		var progress_percent = 100.0 * movement_index / movements_list.length;
-		c.innerHTML = progress_percent.toString() + "% complete.";
+		c.innerHTML = progress_percent.toFixed(2).toString() + "% complete.";
 	}
 
 	function DownloadFile()
 	{
 		console.log("Downloading...");
-		var text = movement_classifications.toString();
+		var text = "";
+		movement_classifications.forEach(function(element){
+			text += element.toString() + "\r\n";
+		});
 		var hiddenElement = document.createElement('a');
 		hiddenElement.href = 'data:attachment/text,' + encodeURI(text);
 		hiddenElement.target = '_blank';
@@ -27,6 +39,10 @@ window.onload = function(){
 	{
 		var c=document.getElementById('scenecanvas');
 		var ctx=c.getContext("2d");
+		var naturalWidth = img.naturalWidth;
+		var naturalHeight = img.naturalHeight;
+		var X_scaling = 320/naturalWidth;
+		var Y_scaling = 240/naturalHeight;
 		ctx.drawImage(img,0,0,320,240);
 		try{
 			this_movement = JSON.parse(movements_list[movement_index]);
@@ -34,7 +50,9 @@ window.onload = function(){
 				var c=document.getElementById('scenecanvas');
 				var ctx=c.getContext("2d");
 				ctx.beginPath();
-				ctx.arc(element.X, element.Y, 3, 0, 2 * Math.PI, false);
+				var X_scaled = element.X*X_scaling;
+				var Y_scaled = element.Y*Y_scaling;
+				ctx.arc(X_scaled, Y_scaled, 3, 0, 2 * Math.PI, false);
 				ctx.fillStyle = 'green';
 				ctx.fill();
 			});	
@@ -67,7 +85,7 @@ window.onload = function(){
 	}
 	
 	document.getElementById('leftbutton').onclick = function() {
-		movement_classifications.push("left");
+		LabelMovementAs("Left");
 		if(movement_index < (movements_list.length - 1))
 		{
 			movement_index++;
@@ -82,7 +100,7 @@ window.onload = function(){
 	}
 	
 	document.getElementById('rightbutton').onclick = function() {
-		movement_classifications.push("right");
+		LabelMovementAs("Right");
 		if(movement_index < (movements_list.length - 1))
 		{
 			movement_index++;
@@ -97,7 +115,7 @@ window.onload = function(){
 	}
 
 	document.getElementById('straightbutton').onclick = function() {
-		movement_classifications.push("straight");
+		LabelMovementAs("Straight");
 		if(movement_index < (movements_list.length - 1))
 		{
 			movement_index++;
@@ -112,7 +130,7 @@ window.onload = function(){
 	}
 	
 	document.getElementById('uturnbutton').onclick = function() {
-		movement_classifications.push("uturn");
+		LabelMovementAs("UTurn");
 		if(movement_index < (movements_list.length - 1))
 		{
 			movement_index++;
@@ -127,7 +145,7 @@ window.onload = function(){
 	}
 	
 	document.getElementById('otherbutton').onclick = function() {
-		movement_classifications.push("other");
+		LabelMovementAs("Unknown");
 		if(movement_index < (movements_list.length - 1))
 		{
 			movement_index++;
