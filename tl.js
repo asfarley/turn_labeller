@@ -8,7 +8,7 @@ window.onload = function(){
 	function LabelMovementAs(label)
 	{
 		this_movement = JSON.parse(movements_list[movement_index]);
-		this_movement.TurnType = label;
+		this_movement.TurnType_HumanLabel = label;
 		console.log("Labelled movement:");
 		console.log(this_movement);
 		movement_classifications.push(this_movement);
