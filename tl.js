@@ -2,7 +2,7 @@ var movement_index = 0;
 var movement_classifications = [];
 var movements_list = [];
 
-//Wrap code in this so that document is available
+//Wrap code in this so that document object is available.
 window.onload = function(){
 
 	//From jwir3/canvasArrowhead.js on Github
@@ -33,11 +33,8 @@ window.onload = function(){
 		Y = radius *Math.sin(angle) + Y_center;
 
 		context.lineTo(X, Y);
-
 		context.closePath();
-		
 		context.stroke();
-
 		context.fill();
 	}	
 
@@ -60,19 +57,11 @@ window.onload = function(){
 		var end = new Object();
 		start.X = X_scaled;
 		start.Y = Y_scaled;
-		//end.X = X_scaled + 10;
-		//end.Y = Y_scaled + 10;
 		end.X = X_scaled + X_scaling*stateEstimate.Vx*0.1;
 		end.Y = Y_scaled + Y_scaling*stateEstimate.Vy*0.1;
 		
 		ctx.strokeStyle="#FF0000";
 		drawArrowhead(ctx, start, end, 5.0);
-		
-		//ctx.strokeStyle="#FF0000";
-		//ctx.arc(X_scaled, Y_scaled, 3, 0, 2 * Math.PI, false);
-		//ctx.stroke();
-		//ctx.fillStyle = "#f0f0f5";
-		//ctx.fill();
 	}
 	
 	function DrawPointOnCanvas(stateEstimate)
@@ -269,6 +258,32 @@ window.onload = function(){
 			DownloadFile();
 		}
 		DrawMovement();
+		return;
+	}
+	
+	document.getElementById('crossingbutton').onclick = function() {
+		LabelMovementAs("Crossing");
+		if(movement_index < (movements_list.length - 1))
+		{
+			movement_index++;
+			UpdatePercentage();
+		}
+		else
+		{
+			DownloadFile();
+		}
+		DrawMovement();
+		return;
+	}
+	
+	document.getElementById('undobutton').onclick = function() {
+		if(movement_index > 0)
+		{
+			movement_index--;
+			UpdatePercentage();
+			movement_classifications.pop();
+			DrawMovement();
+		}
 		return;
 	}
 };
