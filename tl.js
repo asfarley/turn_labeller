@@ -3,7 +3,115 @@ var movement_classifications = [];
 var movements_list = [];
 
 //Wrap code in this so that document is available
-window.onload = function(){ 
+window.onload = function(){
+
+	//From jwir3/canvasArrowhead.js on Github
+	function drawArrowhead(context, start, to, radius) {
+		var X_center = to.X;
+		var Y_center = to.Y;
+
+		var angle;
+		var X;
+		var Y;
+
+		context.beginPath();
+
+		angle = Math.atan2(to.Y - start.Y, to.X - start.X)
+		X = radius * Math.cos(angle) + X_center;
+		Y = radius * Math.sin(angle) + Y_center;
+
+		context.moveTo(X, Y);
+
+		angle += (1.0/3.0) * (2 * Math.PI)
+		X = radius * Math.cos(angle) + X_center;
+		Y = radius * Math.sin(angle) + Y_center;
+
+		context.lineTo(X, Y);
+
+		angle += (1.0/3.0) * (2 * Math.PI)
+		X = radius *Math.cos(angle) + X_center;
+		Y = radius *Math.sin(angle) + Y_center;
+
+		context.lineTo(X, Y);
+
+		context.closePath();
+		
+		context.stroke();
+
+		context.fill();
+	}	
+
+	function DrawArrowOnCanvas(stateEstimate)
+	{
+		var angleRadians = Math.atan(stateEstimate.vY, stateEstimate.vX);
+		var angleDegrees = angleRadians * 180.0/Math.PI;
+		
+		var naturalWidth = img.naturalWidth;
+		var naturalHeight = img.naturalHeight;
+		var X_scaling = 320/naturalWidth;
+		var Y_scaling = 240/naturalHeight;
+		var c=document.getElementById('scenecanvas');
+		var ctx=c.getContext("2d");
+		ctx.beginPath();
+		var X_scaled = stateEstimate.X*X_scaling;
+		var Y_scaled = stateEstimate.Y*Y_scaling;
+		
+		var start = new Object();
+		var end = new Object();
+		start.X = X_scaled;
+		start.Y = Y_scaled;
+		//end.X = X_scaled + 10;
+		//end.Y = Y_scaled + 10;
+		end.X = X_scaled + X_scaling*stateEstimate.Vx*0.1;
+		end.Y = Y_scaled + Y_scaling*stateEstimate.Vy*0.1;
+		
+		ctx.strokeStyle="#FF0000";
+		drawArrowhead(ctx, start, end, 5.0);
+		
+		//ctx.strokeStyle="#FF0000";
+		//ctx.arc(X_scaled, Y_scaled, 3, 0, 2 * Math.PI, false);
+		//ctx.stroke();
+		//ctx.fillStyle = "#f0f0f5";
+		//ctx.fill();
+	}
+	
+	function DrawPointOnCanvas(stateEstimate)
+	{
+		var naturalWidth = img.naturalWidth;
+		var naturalHeight = img.naturalHeight;
+		var X_scaling = 320/naturalWidth;
+		var Y_scaling = 240/naturalHeight;
+		var c=document.getElementById('scenecanvas');
+		var ctx=c.getContext("2d");
+		ctx.beginPath();
+		var X_scaled = stateEstimate.X*X_scaling;
+		var Y_scaled = stateEstimate.Y*Y_scaling;
+		ctx.strokeStyle="#FF0000";
+		ctx.arc(X_scaled, Y_scaled, 3, 0, 2 * Math.PI, false);
+		ctx.stroke();
+		ctx.fillStyle = "#f0f0f5";
+		ctx.fill();
+	}
+	
+	function DrawTextOnCanvas(X,Y,text)
+	{
+		var naturalWidth = img.naturalWidth;
+		var naturalHeight = img.naturalHeight;
+		var X_scaling = 320/naturalWidth;
+		var Y_scaling = 240/naturalHeight;
+		
+		var c=document.getElementById('scenecanvas');
+		var ctx=c.getContext("2d");
+		ctx.beginPath();
+		var X_scaled = X*X_scaling;
+		var Y_scaled = Y*Y_scaling;
+		ctx.strokeStyle = 'black';
+		ctx.lineWidth = 1;
+		ctx.strokeText(text,X_scaled,Y_scaled);
+		ctx.fillStyle = 'white';
+		ctx.fillText(text,X_scaled,Y_scaled);
+		ctx.fill();
+	}
 
 	function LabelMovementAs(label)
 	{
@@ -45,20 +153,25 @@ window.onload = function(){
 		var Y_scaling = 240/naturalHeight;
 		ctx.drawImage(img,0,0,320,240);
 		try{
+			
 			this_movement = JSON.parse(movements_list[movement_index]);
+			//Draw starting point
+			var start_point = this_movement.StateEstimates[0];
+			DrawTextOnCanvas(start_point.X, start_point.Y, "Start");
+			
+			//Draw end-point
+			var end_point = this_movement.StateEstimates[this_movement.StateEstimates.length - 1];
+			DrawTextOnCanvas(end_point.X, end_point.Y, "End");
+			
 			this_movement.StateEstimates.forEach(function(element){
-				var c=document.getElementById('scenecanvas');
-				var ctx=c.getContext("2d");
-				ctx.beginPath();
-				var X_scaled = element.X*X_scaling;
-				var Y_scaled = element.Y*Y_scaling;
-				ctx.arc(X_scaled, Y_scaled, 3, 0, 2 * Math.PI, false);
-				ctx.fillStyle = 'green';
-				ctx.fill();
+				//DrawPointOnCanvas(element);
+				DrawArrowOnCanvas(element);
 			});	
 		}
 		catch(e)
-		{}
+		{
+			console.log(e);
+		}
 	}
 	
 	function GetMovementsJson()
