@@ -104,7 +104,7 @@ window.onload = function(){
 
 	function LabelMovementAs(label)
 	{
-		this_movement = JSON.parse(movements_list[movement_index]);
+		this_movement = movements_list[movement_index];
 		this_movement.TurnType_HumanLabel = label;
 		console.log("Labelled movement:");
 		console.log(this_movement);
@@ -123,10 +123,13 @@ window.onload = function(){
 		console.log("Downloading...");
 		var text = "";
 		movement_classifications.forEach(function(element){
-			text += element.toString() + "\r\n";
+			text += JSON.stringify(element) + "\r\n";
 		});
 		var hiddenElement = document.createElement('a');
-		hiddenElement.href = 'data:attachment/text,' + encodeURI(text);
+		hiddenElement.href = URL.createObjectURL(new Blob([text], {
+                  type: "application/octet-stream"
+            }));
+		//hiddenElement.href = 'data:attachment/text,' + encodeURI(text);
 		hiddenElement.target = '_blank';
 		hiddenElement.download = 'movement_classifications.txt';
 		hiddenElement.click();
@@ -143,7 +146,7 @@ window.onload = function(){
 		ctx.drawImage(img,0,0,320,240);
 		try{
 			
-			this_movement = JSON.parse(movements_list[movement_index]);
+			this_movement = movements_list[movement_index];
 			//Draw starting point
 			var start_point = this_movement.StateEstimates[0];
 			DrawTextOnCanvas(start_point.X, start_point.Y, "Start");
@@ -165,13 +168,25 @@ window.onload = function(){
 	
 	function GetMovementsJson()
 	{
+		movements_list = [];
 		var val = document.getElementById('urlinput').value;
 		var movements_json_url = val + 'Movements.json';
 		var xmlHttp = new XMLHttpRequest();
 		xmlHttp.open( "GET", movements_json_url, false); // false for synchronous request
 		xmlHttp.send( null );
-		movements_list_string = xmlHttp.responseText;
-		movements_list = movements_list_string.split("\n");
+		var movements_list_string = xmlHttp.responseText;
+		var movements_list_strings = movements_list_string.split("\n");
+		movements_list_strings.forEach(function(element) {
+			try
+			{
+				var json_movement = JSON.parse(element);
+				movements_list.push(json_movement);
+			}
+			catch(e)
+			{
+				//Skip malformed list elements i.e. empty line: ""
+			}
+		});
 	}
 
     document.getElementById('urlbutton').onclick = function() {
