@@ -114,7 +114,7 @@ window.onload = function(){
 	function UpdatePercentage()
 	{
 		var c=document.getElementById('progressindicator');	
-		var progress_percent = 100.0 * movement_index / movements_list.length;
+		var progress_percent = 100.0 * (movement_index+1) / movements_list.length;
 		c.innerHTML = progress_percent.toFixed(2).toString() + "% complete.";
 	}
 
